@@ -61,6 +61,15 @@ If a check fails, the site is **not** updated, so a typo can't take the live sit
 
 To run the checks on your own computer (needs Node.js 18+): `npm run check`.
 
+## Help page and printable guide
+
+The site has a **How to use** page (`#help`, linked from the home page and footer) with screenshots, and the same guide as a PDF (`assets/help/guide.pdf`). If you change something students see, rebuild the screenshots and PDF:
+
+```
+npm i --no-save playwright && npx playwright install chromium
+node tools/help-shots.cjs
+```
+
 ## Files
 
 ```
@@ -72,8 +81,9 @@ js/rng.js                   random numbers / paper codes
 js/storage.js               saves progress in the browser
 data/questions.js           THE QUESTION BANK
 assets/questions/*.svg      diagrams used by questions
-assets/logo.png             (add the club logo here)
-tools/                      automatic checks
+assets/logo.png             club logo
+assets/help/                help-page screenshots and guide.pdf
+tools/                      automatic checks, help-shots.cjs (help screenshots + PDF)
 .github/workflows/          GitHub Actions: checks + publish to Pages
 review/questions_review.csv the bank as a spreadsheet for reviewers
 docs/PROMPT.md              the original build spec (for Claude Code or developers)

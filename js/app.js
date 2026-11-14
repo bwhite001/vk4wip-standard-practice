@@ -21,7 +21,7 @@
   const save = () => { if (A) Store.set("attempt", A); };
 
   // ---------- routing ----------
-  const VIEWS = ["home", "quiz", "results", "instructor"];
+  const VIEWS = ["home", "quiz", "results", "instructor", "help"];
   function show(view) {
     VIEWS.forEach((v) => $("v-" + v).classList.toggle("hide", v !== view));
     $("bar").classList.toggle("hide", view !== "quiz");
@@ -39,7 +39,7 @@
       const seed = RNG.codeToSeed(m[1]);
       if (seed) { sharedSeed = seed; renderHome(); show("home"); return; }
     }
-    if (h === "instructor") { show("instructor"); return; }
+    if (h === "instructor" || h === "help") { show(h); return; }
     if (h === "quiz" && A && !A.done) { show("quiz"); startTimer(); drawQ(); return; }
     if (h === "results" && A && A.done) { show("results"); return; }
     renderHome(); show("home");
