@@ -1,0 +1,12 @@
+{
+  "name": "vk4wip-standard-practice",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Random practice papers for the ACMA Standard amateur radio theory exam - Ipswich & District Radio Club (VK4WIP)",
+  "scripts": {
+    "validate": "node tools/validate-questions.mjs",
+    "test": "node tools/test-exam.mjs",
+    "check": "node tools/validate-questions.mjs && node tools/test-exam.mjs"
+  },
+  "license": "UNLICENSED"
+}

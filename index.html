@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standard Theory Practice · VK4WIP</title>
+<meta name="description" content="Random 50-question practice papers for the ACMA Standard amateur radio theory exam. Ipswich & District Radio Club (VK4WIP).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap head-in">
+    <img class="logo" src="assets/logo.png" alt="Ipswich &amp; District Radio Club logo" onerror="this.remove()">
+    <div>
+      <div class="kicker">Standard Upgrade Course · VK4WIP</div>
+      <p class="site-title"><a href="#home">Standard Theory Practice</a></p>
+      <p class="site-sub">Random 50-question papers · ACMA Standard syllabus</p>
+    </div>
+  </div>
+</header>
+
+<div class="bar hide" id="bar" role="region" aria-label="Paper progress">
+  <div class="wrap bar-in">
+    <span class="timer" id="timer" aria-live="polite"></span>
+    <div class="prog" aria-hidden="true"><i id="progfill"></i></div>
+    <span class="muted small" id="progtxt"></span>
+    <button class="btn btn-ghost" data-open="formulas" type="button">Formulas</button>
+  </div>
+</div>
+
+<main id="main" class="wrap" tabindex="-1">
+
+<!-- ================= HOME ================= -->
+<section id="v-home" class="view" aria-labelledby="h-home">
+  <h1 id="h-home" class="sr-only">Standard theory practice: home</h1>
+
+  <div class="card notice hide" id="resume" role="status">
+    <div><b>You have a paper in progress.</b> <span id="resume-txt" class="muted"></span></div>
+    <div class="row"><button class="btn btn-primary" id="resume-go" type="button">Resume</button><button class="btn btn-ghost" id="resume-drop" type="button">Discard</button></div>
+  </div>
+
+  <div class="card notice hide" id="shared-banner" role="status"></div>
+
+  <div class="card">
+    <h2>Start a paper</h2>
+    <div class="choice-grid" role="radiogroup" aria-label="Mode">
+      <button class="pick" role="radio" aria-checked="true" data-mode="exam" type="button"><b>Exam mode</b><span>60-minute timer. Marked at the end, like the real thing.</span></button>
+      <button class="pick" role="radio" aria-checked="false" data-mode="practice" type="button"><b>Practice mode</b><span>No timer. See the answer and explanation after each question.</span></button>
+    </div>
+    <label class="check"><input type="checkbox" id="mix"> Mix sections (default keeps questions grouped by syllabus section)</label>
+    <div class="row">
+      <button class="btn btn-primary btn-large" id="start" type="button">Start random paper</button>
+    </div>
+    <form class="row code-form" id="code-form">
+      <label for="code-in" class="muted small">Have a paper code?</label>
+      <input id="code-in" inputmode="text" autocomplete="off" maxlength="7" placeholder="e.g. K3F9QZ" aria-describedby="code-err">
+      <button class="btn btn-secondary" type="submit">Open</button>
+      <span id="code-err" class="err small" aria-live="polite"></span>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Drill a topic</h2>
+    <div class="row">
+      <label class="sr-only" for="drill-sec">Section</label>
+      <select id="drill-sec"></select>
+      <div class="seg" role="radiogroup" aria-label="Number of questions">
+        <button type="button" role="radio" aria-checked="true" data-n="10">10</button>
+        <button type="button" role="radio" aria-checked="false" data-n="20">20</button>
+        <button type="button" role="radio" aria-checked="false" data-n="all">All</button>
+      </div>
+      <button class="btn btn-primary" id="drill-go" type="button">Start drill</button>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn btn-secondary" id="weak-go" type="button">Weak spots</button>
+      <span class="muted small" id="weak-txt"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row spread"><h2>Your progress <span class="muted small">(this device)</span></h2></div>
+    <p class="small" id="coverage-txt"></p>
+    <div class="meter big" aria-hidden="true"><i id="coverage-bar"></i></div>
+    <h3>Recent attempts</h3>
+    <div id="history"></div>
+    <h3>Section strength</h3>
+    <table class="tbl" aria-label="Section strength"><tbody id="strength"></tbody></table>
+    <p class="muted small hide" id="nostore">Your browser is blocking storage, so progress won't be kept after you close this page.</p>
+    <div class="row" style="margin-top:12px">
+      <button class="btn btn-ghost" id="reset" type="button">Reset my progress</button>
+      <span id="reset-confirm" class="hide"><span class="small">Clear all progress on this device?</span> <button class="btn btn-secondary" id="reset-yes" type="button">Yes, clear</button> <button class="btn btn-ghost" id="reset-no" type="button">Cancel</button></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>About the exam</h2>
+    <p>The Standard theory paper has <b>50 multiple-choice questions</b> in <b>60 minutes</b>. You need <b>35 correct (70%)</b> to pass. The ACMA formula sheet is supplied in the exam. You'll find the same sheet under <a href="#formulas">Formulas</a>.</p>
+    <table class="tbl" aria-label="Questions per section"><thead><tr><th>Syllabus section</th><th>Questions per paper</th><th>In the bank</th></tr></thead><tbody id="quota"></tbody></table>
+    <p class="muted small" style="margin-top:10px">Practice questions written for the club's Standard Upgrade Course. These are not official ACMA examination questions. Regulations (sections 1–2) and the practical (section 9) are not covered here.</p>
+  </div>
+</section>
+
+<!-- ================= QUIZ ================= -->
+<section id="v-quiz" class="view hide" aria-labelledby="qhead">
+  <div class="card">
+    <div class="row spread">
+      <h1 id="qhead" class="tag"></h1>
+      <button class="btn btn-ghost" id="flag" type="button" aria-pressed="false">☆ Flag</button>
+    </div>
+    <p class="qtext" id="qtext"></p>
+    <figure class="qimg hide" id="qfig"><button type="button" class="imgbtn" id="qimgbtn" aria-label="Enlarge diagram"><img id="qimg" alt=""></button></figure>
+    <div id="choices" role="radiogroup" aria-labelledby="qtext"></div>
+    <div id="explain" class="explain hide" aria-live="polite"></div>
+    <div class="row spread nav-btns">
+      <button class="btn btn-secondary" id="prev" type="button">‹ Back</button>
+      <button class="btn btn-primary" id="next" type="button">Next ›</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="row spread"><h2>Questions</h2><span class="muted small">Blue = answered · gold line = flagged</span></div>
+    <div class="qmap" id="qmap" aria-label="Question map"></div>
+    <div id="finish-confirm" class="confirm hide" role="alert"></div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn btn-primary" id="finish" type="button">Finish &amp; mark</button>
+      <button class="btn btn-ghost" id="quit" type="button">Quit</button>
+    </div>
+    <div id="quit-confirm" class="confirm hide" role="alert">Quit this paper? Your answers so far will be lost. <button class="btn btn-secondary" id="quit-yes" type="button">Yes, quit</button> <button class="btn btn-ghost" id="quit-no" type="button">Keep going</button></div>
+    <p class="muted small">Keys: 1–4 or A–D to answer · ← → to move · F to flag</p>
+  </div>
+</section>
+
+<!-- ================= RESULTS ================= -->
+<section id="v-results" class="view hide" aria-labelledby="rh">
+  <div class="card">
+    <div class="kicker muted" id="r-label"></div>
+    <h1 id="rh" class="score"><span id="r-score"></span></h1>
+    <p class="verdict" id="r-verdict"></p>
+    <p class="muted" id="r-detail"></p>
+    <div class="row" id="r-code-row"><span class="small">Paper code <b id="r-code"></b></span><button class="btn btn-ghost" id="r-copy" type="button">Copy paper link</button><span class="small muted" id="r-copied" aria-live="polite"></span></div>
+  </div>
+  <div class="card">
+    <h2>By syllabus section</h2>
+    <table class="tbl"><thead><tr><th>Section</th><th>Score</th><th class="w35"><span class="sr-only">Bar</span></th><th><span class="sr-only">Drill</span></th></tr></thead><tbody id="r-sec"></tbody></table>
+    <p class="muted small">Sections under 70% are the ones to revise first.</p>
+  </div>
+  <div class="card">
+    <div class="row spread"><h2>Review answers</h2><label class="check small"><input type="checkbox" id="wrong-only" checked> Wrong &amp; unanswered only</label></div>
+    <div id="review"></div>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary" id="r-new" type="button">New random paper</button>
+    <button class="btn btn-secondary" id="r-retry" type="button">Retry same paper</button>
+    <a class="btn btn-ghost" href="#home">Home</a>
+  </div>
+</section>
+
+<!-- ================= INSTRUCTOR ================= -->
+<section id="v-instructor" class="view hide" aria-labelledby="ih">
+  <div class="card">
+    <h1 id="ih" class="h2">Instructor: paper &amp; answer key</h1>
+    <p class="muted small">Generate a paper from a code (or a new random one), then copy it as text to print. Students can sit the same paper with the code or link.</p>
+    <form class="row" id="ins-form">
+      <label for="ins-code" class="small">Paper code</label>
+      <input id="ins-code" maxlength="7" autocomplete="off" placeholder="blank = random">
+      <label class="check small"><input type="checkbox" id="ins-mix"> Mix sections</label>
+      <button class="btn btn-primary" type="submit">Generate</button>
+    </form>
+    <div class="row hide" id="ins-actions">
+      <span class="small">Code <b id="ins-shown"></b></span>
+      <button class="btn btn-secondary" id="ins-copy-p" type="button">Copy paper</button>
+      <button class="btn btn-secondary" id="ins-copy-k" type="button">Copy answer key</button>
+      <button class="btn btn-ghost" id="ins-copy-l" type="button">Copy student link</button>
+      <span class="small muted" id="ins-msg" aria-live="polite"></span>
+    </div>
+  </div>
+  <div class="card hide" id="ins-paper"></div>
+</section>
+</main>
+
+<!-- ================= MODALS ================= -->
+<div class="modal" id="m-formulas" role="dialog" aria-modal="true" aria-labelledby="fh" hidden>
+  <div class="card modal-card">
+    <div class="row spread"><h2 id="fh">ACMA formula sheet</h2><button class="btn btn-ghost" data-close type="button">Close ✕</button></div>
+    <p class="muted small">These formulas are supplied in the Standard exam.</p>
+    <div class="fgrid">
+      <div>R<sub>T</sub> = R1 + R2 + R3</div><div>1/R<sub>T</sub> = 1/R1 + 1/R2 + 1/R3</div>
+      <div>L<sub>T</sub> = L1 + L2 + L3</div><div>1/L<sub>T</sub> = 1/L1 + 1/L2 + 1/L3</div>
+      <div>C<sub>T</sub> = C1 + C2 + C3 <span class="muted">(parallel)</span></div><div>1/C<sub>T</sub> = 1/C1 + 1/C2 + 1/C3 <span class="muted">(series)</span></div>
+      <div>E = IR · I = E/R · R = E/I</div><div>P = EI · P = E²/R · P = I²R</div>
+      <div>p = 1/f · f = 1/p</div><div>λ = c / f</div>
+      <div class="span2">Amplifier efficiency % = Power out / Power in × 100</div>
+    </div>
+    <h3>Handy extras <span class="muted small">(not on the ACMA sheet)</span></h3>
+    <div class="fgrid">
+      <div>RMS = 0.707 × peak</div><div>λ (m) ≈ 300 / f (MHz)</div>
+      <div>+3 dB ≈ ×2 · +6 dB ≈ ×4 · +10 dB = ×10</div><div>OWF ≈ MUF − 15%</div>
+      <div class="span2">Colour code: Black 0 · Brown 1 · Red 2 · Orange 3 · Yellow 4 · Green 5 · Blue 6 · Violet 7 · Grey 8 · White 9. Tolerance: Gold ±5% · Silver ±10% · none ±20%</div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="m-image" role="dialog" aria-modal="true" aria-label="Enlarged diagram" hidden>
+  <div class="card modal-card lightbox"><div class="row spread"><span></span><button class="btn btn-ghost" data-close type="button">Close ✕</button></div><img id="lb-img" alt=""></div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Ipswich &amp; District Radio Club · VK4WIP</p>
+    <p class="small">Practice questions written for the club's Standard Upgrade Course. These are not official ACMA examination questions.</p>
+    <p class="small"><a href="#instructor">Instructor tools</a> · <a href="#formulas">Formula sheet</a></p>
+  </div>
+</footer>
+
+<script src="data/questions.js"></script>
+<script src="js/rng.js"></script>
+<script src="js/exam.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
