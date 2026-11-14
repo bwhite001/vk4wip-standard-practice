@@ -81,6 +81,7 @@ input,select{font:inherit;min-height:44px;padding:8px 10px;border:2px solid var(
 /* quiz */
 .bar{position:sticky;top:0;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:6px 0}
 .bar-in{display:flex;gap:10px;align-items:center;justify-content:space-between}
+#progtxt{white-space:nowrap}
 .timer{font-family:var(--font-heading);font-weight:700;color:var(--brand-navy);font-variant-numeric:tabular-nums;min-width:68px}
 .timer.low{color:var(--brand-red)}
 .prog{flex:1;height:6px;background:var(--band);border-radius:6px;overflow:hidden;min-width:60px}
